@@ -1,0 +1,536 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --vinho: #2b1721;
+    --vinho-escuro: #1c0f16;
+    --vinho-claro: #3a2029;
+    --dourado: #c8a15c;
+    --dourado-claro: #e2c98f;
+    --creme: #f6efe4;
+    --branco: #ffffff;
+    --cinza: #777;
+    --verde: #4caf50;
+    --vermelho: #b1495a;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--creme);
+    color: var(--vinho);
+}
+
+/* LOGIN */
+
+#areaLogin {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--vinho-escuro);
+    padding: 30px;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 1000px;
+    min-height: 600px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--branco);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
+}
+
+.login-imagem {
+    min-height: 600px;
+    background:
+        linear-gradient(rgba(43, 23, 33, 0.35), rgba(28, 15, 22, 0.75)),
+        url("imagens/fundo.jpg") center/cover;
+    display: flex;
+    align-items: flex-end;
+}
+
+.login-overlay {
+    padding: 50px;
+    color: white;
+}
+
+.login-overlay h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.login-overlay p {
+    font-size: 20px;
+    color: var(--dourado-claro);
+}
+
+.login-formulario {
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-formulario h2 {
+    color: var(--vinho);
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.subtitulo {
+    color: var(--cinza);
+    margin-bottom: 35px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.campo label {
+    font-weight: bold;
+    color: var(--vinho);
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    background: white;
+}
+
+.campo input:focus,
+.campo select:focus {
+    border-color: var(--dourado);
+    box-shadow: 0 0 0 2px rgba(200, 161, 92, 0.15);
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.login-formulario > button {
+    width: 100%;
+    background: var(--vinho);
+    color: white;
+    padding: 14px;
+    margin-top: 5px;
+}
+
+.login-formulario > button:hover {
+    background: var(--vinho-claro);
+}
+
+.trocar-cadastro {
+    text-align: center;
+    margin-top: 25px;
+    color: var(--cinza);
+}
+
+.trocar-cadastro button {
+    background: none;
+    color: var(--dourado);
+    padding: 0;
+    margin-left: 5px;
+}
+
+.trocar-cadastro button:hover {
+    text-decoration: underline;
+}
+
+#erroLogin {
+    color: var(--vermelho);
+    text-align: center;
+    margin-top: 15px;
+    min-height: 20px;
+}
+
+
+/* SISTEMA */
+
+#areaSistema {
+    min-height: 100vh;
+    background: var(--creme);
+}
+
+.topo {
+    height: 75px;
+    background: var(--vinho-escuro);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 35px;
+}
+
+.logo h1 {
+    color: var(--dourado-claro);
+    font-size: 27px;
+}
+
+.usuario-topo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.usuario-topo b {
+    color: var(--dourado-claro);
+}
+
+.usuario-topo button {
+    background: var(--vermelho);
+    color: white;
+}
+
+.usuario-topo button:hover {
+    opacity: 0.85;
+}
+
+
+/* MENU */
+
+.menu {
+    min-height: 60px;
+    background: var(--vinho);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 30px;
+    flex-wrap: wrap;
+}
+
+.menu button {
+    background: transparent;
+    color: var(--creme);
+    border: 1px solid transparent;
+}
+
+.menu button:hover {
+    background: var(--vinho-claro);
+    color: var(--dourado-claro);
+    border-color: var(--dourado);
+}
+
+
+/* CONTEÚDO */
+
+.conteudo {
+    max-width: 1400px;
+    margin: auto;
+    padding: 35px;
+}
+
+.pagina {
+    animation: aparecer 0.2s ease;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.titulo-pagina {
+    margin-bottom: 30px;
+}
+
+.titulo-pagina h2 {
+    font-size: 30px;
+    color: var(--vinho);
+    margin-bottom: 7px;
+}
+
+.titulo-pagina p {
+    color: var(--cinza);
+}
+
+
+/* CARDS INÍCIO */
+
+.cards-inicio {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.card-inicio {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(43, 23, 33, 0.08);
+    border-left: 5px solid var(--dourado);
+}
+
+.card-inicio .icone {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.card-inicio h3 {
+    color: var(--vinho);
+    margin-bottom: 10px;
+}
+
+.card-inicio p {
+    color: var(--dourado);
+    font-size: 28px;
+    font-weight: bold;
+}
+
+
+/* FORMULÁRIOS */
+
+.formulario {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    box-shadow: 0 5px 20px rgba(43, 23, 33, 0.08);
+}
+
+.formulario .campo {
+    margin-bottom: 0;
+}
+
+.formulario > button {
+    background: var(--vinho);
+    color: white;
+    align-self: end;
+}
+
+.formulario > button:hover {
+    background: var(--vinho-claro);
+}
+
+
+/* TABELAS */
+
+.tabela-container {
+    background: white;
+    border-radius: 15px;
+    overflow-x: auto;
+    box-shadow: 0 5px 20px rgba(43, 23, 33, 0.08);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+}
+
+thead {
+    background: var(--vinho);
+    color: white;
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    font-size: 14px;
+}
+
+td {
+    color: #444;
+}
+
+tbody tr:hover {
+    background: #faf6f0;
+}
+
+
+
+
+/* FINANCEIRO */
+
+.cards-financeiro {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card-financeiro {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(43, 23, 33, 0.08);
+}
+
+.card-financeiro span {
+    display: block;
+    color: var(--cinza);
+    margin-bottom: 15px;
+}
+
+.card-financeiro strong {
+    color: var(--dourado);
+    font-size: 28px;
+}
+
+
+/* CONTA */
+
+.conta-card {
+    max-width: 500px;
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(43, 23, 33, 0.08);
+    text-align: center;
+}
+
+.avatar {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: var(--vinho);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+}
+
+.conta-card h3 {
+    color: var(--vinho);
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.conta-card p {
+    color: var(--cinza);
+    margin-bottom: 8px;
+}
+
+.conta-card span {
+    display: inline-block;
+    background: var(--dourado-claro);
+    color: var(--vinho);
+    padding: 7px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+
+/* CLASSE PARA ESCONDER */
+
+.escondido {
+    display: none !important;
+}
+
+
+/* RESPONSIVO */
+
+@media (max-width: 1000px) {
+
+    .login-container {
+        grid-template-columns: 1fr;
+        max-width: 600px;
+    }
+
+    .login-imagem {
+        min-height: 250px;
+    }
+
+    .login-overlay {
+        padding: 30px;
+    }
+
+    .login-overlay h1 {
+        font-size: 36px;
+    }
+
+    .cards-inicio {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .formulario {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cards-financeiro {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    #areaLogin {
+        padding: 15px;
+    }
+
+    .login-formulario {
+        padding: 35px 25px;
+    }
+
+    .login-imagem {
+        min-height: 200px;
+    }
+
+    .topo {
+        height: auto;
+        padding: 20px;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .usuario-topo {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .menu {
+        padding: 10px 15px;
+        justify-content: center;
+    }
+
+    .conteudo {
+        padding: 20px 15px;
+    }
+
+    .cards-inicio {
+        grid-template-columns: 1fr;
+    }
+
+    .formulario {
+        grid-template-columns: 1fr;
+    }
+
+    .titulo-pagina h2 {
+        font-size: 25px;
+    }
+}
