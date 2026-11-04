@@ -228,7 +228,7 @@ function renderInicio() {
     var f = S.fid;
     if (f) {
         var falta = f.meta - f.progresso;
-        html += '<div class="card"><h3>🎁 Programa de fidelidade</h3>' +
+        html += '<div class="card"><h3> Programa de fidelidade</h3>' +
             '<p class="card-sub">A cada ' + f.meta + " serviços pagos, o próximo é por nossa conta.</p>" +
             '<div class="progresso"><div style="width:' + Math.round((f.progresso / f.meta) * 100) + '%"></div></div>' +
             "<p><b>" + f.progresso + " de " + f.meta + "</b> serviços neste ciclo" + (f.gratisDisponiveis > 0 ? "" : " — faltam " + falta + " para o próximo grátis") + ".</p>" +
@@ -275,7 +275,7 @@ function renderBarbeirosSel() {
     var escolhido = S.barbeiros.find(function (b) { return b.id === S.sel.barbeiroId; });
     $("dicaBarbeiro").innerHTML = escolhido
         ? '<div class="dica-passo pronto">✓ Barbeiro escolhido: ' + esc(escolhido.nome) + ". Toque em outro para trocar.</div>"
-        : '<div class="dica-passo pendente">👇 Toque em um barbeiro abaixo para escolher. Sem isso não aparecem os horários.</div>';
+        : '<div class="dica-passo pendente"> Toque em um barbeiro abaixo para escolher. Sem isso não aparecem os horários.</div>';
     $("selBarbeiros").innerHTML = barbeirosOrdenados().map(function (b) {
         return cardBarbeiro(b, { escolher: true, selecionado: S.sel.barbeiroId === b.id });
     }).join("") || '<div class="vazio">Nenhum barbeiro disponível.</div>';
