@@ -15,7 +15,21 @@
         .ag-data { font-weight:bold; color:var(--vinho); text-transform:capitalize; }
         .ag-acoes { display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
         .barb-card { background:#fff; border-radius:15px; padding:18px; box-shadow:var(--sombra); border:2px solid transparent; cursor:default; }
-        .barb-card.selecionado { border-color:var(--vinho); }
+        .barb-card { position:relative; }
+        .barb-card.escolhivel { cursor:pointer; border:2px dashed #d9c79b; transition:transform .15s, box-shadow .15s, border-color .15s; }
+        .barb-card.escolhivel:hover { transform:translateY(-2px); border-color:var(--dourado); box-shadow:0 8px 22px rgba(43,23,33,.18); }
+        .barb-card.selecionado { border:2px solid var(--ok, #2e7d52); background:#f3fbf6; }
+        .barb-card .selo-ok { position:absolute; top:-10px; right:-10px; background:var(--ok, #2e7d52); color:#fff; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,.25); }
+        .btn-escolher { width:100%; margin-top:10px; }
+        .btn-ok { background:var(--ok, #2e7d52); color:#fff; }
+        .dica-passo { border-radius:12px; padding:12px 16px; margin:0 0 16px; font-weight:bold; }
+        .dica-passo.pendente { background:#fff4d6; color:#8a5a00; border:2px solid #f0c75a; animation:balancar 1.6s ease-in-out infinite; }
+        .dica-passo.pronto { background:#e6f6ec; color:#1f6b41; border:2px solid #9bd3b1; }
+        .pulsar { animation:destaque 1.2s ease-out 2; }
+        @keyframes destaque { 0% { box-shadow:0 0 0 0 rgba(201,162,92,.9); } 100% { box-shadow:0 0 0 22px rgba(201,162,92,0); } }
+        @keyframes balancar { 0%,100% { transform:translateX(0); } 50% { transform:translateX(4px); } }
+        .falta-info { margin-top:10px; color:#8a5a00; font-size:14px; }
+        @media (prefers-reduced-motion: reduce) { .dica-passo.pendente, .pulsar { animation:none; } }
         .barb-topo { display:flex; gap:12px; align-items:center; margin-bottom:10px; }
         .coracao { background:none; font-size:24px; color:var(--vermelho); padding:2px 6px; margin-left:auto; }
         .progresso { background:#f1ebe0; border-radius:10px; height:14px; overflow:hidden; margin:10px 0; }
@@ -50,7 +64,8 @@
                 <p class="mt negrito" id="totalCombo"></p>
             </div>
 
-            <div class="card"><h3><span class="passo-num">2</span>Barbeiro</h3>
+            <div class="card" id="cardBarbeiro"><h3><span class="passo-num">2</span>Escolha o seu barbeiro</h3>
+                <div id="dicaBarbeiro"></div>
                 <div id="selBarbeiros" class="grade"></div>
             </div>
 
@@ -71,7 +86,7 @@
 
             <div class="card"><h3><span class="passo-num">5</span>Resumo</h3>
                 <div id="resumo"></div>
-                <div class="mt"><button type="button" class="btn btn-primario" id="btnConfirmar" disabled>Confirmar agendamento</button></div>
+                <div class="mt"><button type="button" class="btn btn-primario" id="btnConfirmar" disabled>Confirmar agendamento</button><p class="falta-info" id="faltaInfo"></p></div>
             </div>
         </section>
 
@@ -165,12 +180,15 @@ function cardBarbeiro(b, opcoes) {
     var fav = ehFavorito(b.id);
     var botoes = '<a class="btn btn-secundario btn-pequeno" href="perfil.html?id=' + b.id + '" target="_blank" rel="noopener">Ver perfil</a>';
     if (opcoes.agendar) botoes += ' <button type="button" class="btn btn-primario btn-pequeno" data-agendar-com="' + b.id + '">Agendar com ele</button>';
-    return '<div class="barb-card ' + (opcoes.selecionado ? "selecionado" : "") + '"' + (opcoes.escolher ? ' data-escolher="' + b.id + '" style="cursor:pointer"' : "") + ">" +
+    var escolherBtn = opcoes.escolher
+        ? '<button type="button" class="btn btn-escolher ' + (opcoes.selecionado ? "btn-ok" : "btn-primario") + '">' + (opcoes.selecionado ? "✓ Barbeiro selecionado" : "Escolher " + esc(b.nome.split(" ")[0])) + "</button>" : "";
+    return '<div class="barb-card ' + (opcoes.escolher ? "escolhivel " : "") + (opcoes.selecionado ? "selecionado" : "") + '"' + (opcoes.escolher ? ' data-escolher="' + b.id + '" role="button" tabindex="0" aria-pressed="' + (opcoes.selecionado ? "true" : "false") + '"' : "") + ">" +
+        (opcoes.selecionado ? '<span class="selo-ok" aria-hidden="true">✓</span>' : "") +
         '<div class="barb-topo">' + avatarHtml(b.fotoUrl, b.nome, 52) +
         "<div><b>" + esc(b.nome) + "</b><br>" + mediaHtml(b.media, b.totalAvaliacoes) + "</div>" +
         '<button type="button" class="coracao" data-fav="' + b.id + '" title="' + (fav ? "Remover dos favoritos" : "Favoritar") + '">' + (fav ? "♥" : "♡") + "</button></div>" +
         '<div class="texto-pequeno texto-suave" style="min-height:18px;margin-bottom:10px">' + esc(b.especialidades || "") + "</div>" +
-        '<div class="flex">' + botoes + "</div></div>";
+        '<div class="flex">' + botoes + "</div>" + escolherBtn + "</div>";
 }
 function barbeirosOrdenados() {
     return S.barbeiros.slice().sort(function (a, b) {
@@ -248,7 +266,16 @@ function renderServicosSel() {
     var t = totalCombo();
     $("totalCombo").innerHTML = t.itens.length ? "Combo: " + t.itens.length + " serviço(s) · " + duracaoTexto(t.duracao) + " · " + moeda(t.preco) : "";
 }
+function destacarBarbeiros(rolar) {
+    var c = $("cardBarbeiro");
+    c.classList.remove("pulsar"); void c.offsetWidth; c.classList.add("pulsar");
+    if (rolar) c.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 function renderBarbeirosSel() {
+    var escolhido = S.barbeiros.find(function (b) { return b.id === S.sel.barbeiroId; });
+    $("dicaBarbeiro").innerHTML = escolhido
+        ? '<div class="dica-passo pronto">✓ Barbeiro escolhido: ' + esc(escolhido.nome) + ". Toque em outro para trocar.</div>"
+        : '<div class="dica-passo pendente">👇 Toque em um barbeiro abaixo para escolher. Sem isso não aparecem os horários.</div>';
     $("selBarbeiros").innerHTML = barbeirosOrdenados().map(function (b) {
         return cardBarbeiro(b, { escolher: true, selecionado: S.sel.barbeiroId === b.id });
     }).join("") || '<div class="vazio">Nenhum barbeiro disponível.</div>';
@@ -256,7 +283,14 @@ function renderBarbeirosSel() {
 function renderSlots() {
     var area = $("selSlots"), s = S.sel;
     if (!s.servicoIds.length || !s.barbeiroId || !s.data) {
-        area.innerHTML = '<p class="texto-suave">Escolha os serviços, o barbeiro e o dia para ver os horários livres.</p>'; return;
+        var faltam = [];
+        if (!s.servicoIds.length) faltam.push("os serviços (passo 1)");
+        if (!s.barbeiroId) faltam.push("o barbeiro (passo 2)");
+        if (!s.data) faltam.push("o dia");
+        area.innerHTML = '<div class="aviso-caixa aviso">Para ver os horários livres, escolha ' + (faltam.length > 1 ? faltam.slice(0, -1).join(", ") + " e " + faltam[faltam.length - 1] : faltam[0]) + ".</div>" +
+            (!s.barbeiroId ? '<button type="button" class="btn btn-dourado" id="btnIrBarbeiro">Escolher barbeiro</button>' : "");
+        var ir = $("btnIrBarbeiro"); if (ir) ir.onclick = function () { destacarBarbeiros(true); };
+        return;
     }
     if (S.slots === null) { area.innerHTML = '<div class="carregando">Buscando horários…</div>'; return; }
     if (!S.slots.length) {
@@ -310,7 +344,7 @@ function renderDesconto() {
 function renderResumo() {
     var s = S.sel, t = totalCombo(), sim = S.sim;
     var b = S.barbeiros.find(function (x) { return x.id === s.barbeiroId; });
-    if (!t.itens.length) { $("resumo").innerHTML = '<p class="texto-suave">Escolha ao menos um serviço.</p>'; $("btnConfirmar").disabled = true; return; }
+    if (!t.itens.length) { $("resumo").innerHTML = '<p class="texto-suave">Escolha ao menos um serviço.</p>'; $("btnConfirmar").disabled = true; $("faltaInfo").textContent = ""; return; }
     var desconto = sim ? sim.valorDesconto : 0, final = sim ? sim.valorFinal : t.preco;
     var html = t.itens.map(function (i) { return '<div class="resumo-linha"><span>' + esc(i.nome) + '</span><span>' + moeda(i.preco) + "</span></div>"; }).join("");
     html += '<div class="resumo-linha"><span>Duração total</span><span>' + duracaoTexto(t.duracao) + "</span></div>";
@@ -320,6 +354,11 @@ function renderResumo() {
     html += '<div class="resumo-linha resumo-total"><span>Total</span><span>' + moeda(final) + "</span></div>";
     $("resumo").innerHTML = html;
     $("btnConfirmar").disabled = !(s.servicoIds.length && s.barbeiroId && s.data && s.hora);
+    var falta = [];
+    if (!s.barbeiroId) falta.push("escolher o barbeiro");
+    if (!s.data) falta.push("escolher o dia");
+    else if (s.barbeiroId && !s.hora) falta.push("escolher o horário");
+    $("faltaInfo").textContent = falta.length ? "Falta " + falta.join(" e ") + " para confirmar." : "";
 }
 function renderAgendarTudo() { renderServicosSel(); renderBarbeirosSel(); renderSlots(); renderDesconto(); renderResumo(); $("selData").value = S.sel.data; }
 
@@ -335,6 +374,7 @@ function iniciarAgendamento(opcoes) {
     S.sim = null; $("msgCupom").textContent = "";
     Paginas.ir("agendar");
     carregarSlots(); simular();
+    if (validos.length && !S.sel.barbeiroId) setTimeout(function () { destacarBarbeiros(true); }, 250);
 }
 
 async function confirmarAgendamento() {
@@ -463,11 +503,17 @@ document.addEventListener("click", function (ev) {
     if (d("data-servico")) {
         var id = Number(d("data-servico")), i = S.sel.servicoIds.indexOf(id);
         if (i === -1) S.sel.servicoIds.push(id); else S.sel.servicoIds.splice(i, 1);
-        renderServicosSel(); carregarSlots(); simular(); return;
+        renderServicosSel(); carregarSlots(); simular();
+        if (i === -1 && !S.sel.barbeiroId) destacarBarbeiros(false);
+        return;
     }
     var esc1 = t.closest("[data-escolher]");
     if (esc1 && !ev.target.closest("[data-fav], a")) { S.sel.barbeiroId = Number(esc1.getAttribute("data-escolher")); renderBarbeirosSel(); carregarSlots(); return; }
     if (d("data-hora")) { S.sel.hora = d("data-hora"); renderSlots(); renderResumo(); return; }
+});
+$("selBarbeiros").addEventListener("keydown", function (ev) {
+    var c = ev.target.closest("[data-escolher]");
+    if (c && ev.target === c && (ev.key === "Enter" || ev.key === " ")) { ev.preventDefault(); c.click(); }
 });
 $("selData").onchange = function () { S.sel.data = this.value; carregarSlots(); };
 $("btnCupom").onclick = function () {
