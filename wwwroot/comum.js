@@ -111,9 +111,7 @@ function iniciais(nome) {
 
 function avatarHtml(fotoUrl, nome, tamanho) {
     tamanho = tamanho || 40;
-    var conteudo = fotoUrl
-        ? '<img src="' + esc(fotoUrl) + '" alt="' + esc(nome) + '">'
-        : esc(iniciais(nome));
+    var conteudo = '<img src="' + (fotoUrl ? esc(fotoUrl) : "imagens/perfil.png") + '" alt="' + esc(nome) + '">';
     return '<span class="av" style="--s:' + tamanho + 'px">' + conteudo + "</span>";
 }
 
@@ -438,7 +436,7 @@ function montarCabecalho(usuario) {
     var ultimo = { naoLidas: 0, itens: [] };
 
     topo.innerHTML =
-        '<div class="logo"><a href="' + paginaInicialDo(usuario.tipo) + '"><h1>Salão Beleza</h1></a></div>' +
+        '<div class="logo"><a href="' + paginaInicialDo(usuario.tipo) + '"><img class="logo-img" src="imagens/logo-claro.png" alt="Salão Beleza" onerror="this.outerHTML=\'<h1>Salão Beleza</h1>\'"></a></div>' +
         '<div class="usuario-topo">' +
         '  <button type="button" class="btn-sino" id="btnSino" aria-label="Notificações">🔔<span class="contador escondido" id="contadorSino">0</span></button>' +
         '  <div class="painel-notificacoes escondido" id="painelNotificacoes"></div>' +
@@ -629,3 +627,14 @@ function montarConta(container) {
         }
     };
 }
+
+/* ---------- Imagens que falham ao carregar ---------- */
+// Foto de perfil quebrada -> perfil.png; foto de portfolio quebrada -> generico.jpg.
+document.addEventListener("error", function (ev) {
+    var img = ev.target;
+    if (!img || img.tagName !== "IMG" || img.dataset.fallback) return;
+    var destino = null;
+    if (img.closest(".av")) destino = "imagens/perfil.png";
+    else if (img.closest(".galeria")) destino = "imagens/generico.jpg";
+    if (destino) { img.dataset.fallback = "1"; img.src = destino; }
+}, true);

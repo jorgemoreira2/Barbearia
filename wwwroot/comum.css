@@ -325,3 +325,8 @@ td .flex { gap: 6px; }
     .painel-notificacoes { position: fixed; left: 12px; right: 12px; top: 80px; width: auto; max-width: none; }
     .hbarra { grid-template-columns: 90px 1fr auto; }
 }
+
+/* Logo */
+.logo-img { height: 46px; width: auto; display: block; }
+.login-overlay .logo-img { height: 90px; margin-bottom: 10px; }
+.pf-topo .logo-img { height: 38px; }
