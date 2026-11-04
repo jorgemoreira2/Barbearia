@@ -330,3 +330,27 @@ td .flex { gap: 6px; }
 .logo-img { height: 46px; width: auto; display: block; }
 .login-overlay .logo-img { height: 90px; margin-bottom: 10px; }
 .pf-topo .logo-img { height: 38px; }
+
+/* Sino de notificacoes (imagem) */
+.btn-sino .sino-img { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; display: block; }
+
+/* Logo na parte do formulario de login */
+.logo-form { display: block; height: 70px; width: auto; max-width: 100%; margin: 0 auto 18px; }
+
+/* Rodape com logo */
+.rodape { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 26px 16px 34px; color: var(--cinza, #777); font-size: 14px; }
+.rodape img { height: 34px; width: auto; }
+
+/* Fundo da area do cliente */
+body.fundo-generico {
+    background:
+        linear-gradient(rgba(246, 239, 226, 0.90), rgba(246, 239, 226, 0.94)),
+        url("imagens/generico.jpg") center / cover fixed;
+}
+
+/* Boas-vindas do cliente */
+.boas-vindas { display: flex; align-items: center; gap: 20px; background: #fff; border-radius: 18px; padding: 18px 24px; margin-bottom: 22px; box-shadow: var(--sombra); border-left: 5px solid var(--dourado); }
+.boas-vindas img { width: 84px; height: 84px; border-radius: 16px; object-fit: cover; flex-shrink: 0; }
+.boas-vindas h2 { margin: 0 0 4px; color: var(--vinho); }
+.boas-vindas p { margin: 0; color: #666; }
+@media (max-width: 650px) { .boas-vindas { flex-direction: column; text-align: center; } }

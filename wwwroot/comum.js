@@ -1,5 +1,5 @@
 /* =====================================================================
-   comum.js - funcoes compartilhadas por todas as telas do Salao Beleza.
+   comum.js - funcoes compartilhadas por todas as telas do Barber House.
    Carregar com: <script src="comum.js"></script> (antes do script da pagina)
    ===================================================================== */
 
@@ -436,13 +436,22 @@ function montarCabecalho(usuario) {
     var ultimo = { naoLidas: 0, itens: [] };
 
     topo.innerHTML =
-        '<div class="logo"><a href="' + paginaInicialDo(usuario.tipo) + '"><img class="logo-img" src="imagens/logo-claro.png" alt="Salão Beleza" onerror="this.outerHTML=\'<h1>Salão Beleza</h1>\'"></a></div>' +
+        '<div class="logo"><a href="' + paginaInicialDo(usuario.tipo) + '"><img class="logo-img" src="imagens/logo-claro.png" alt="Barber House" onerror="this.outerHTML=\'<h1>Barber House</h1>\'"></a></div>' +
         '<div class="usuario-topo">' +
-        '  <button type="button" class="btn-sino" id="btnSino" aria-label="Notificações">🔔<span class="contador escondido" id="contadorSino">0</span></button>' +
+        '  <button type="button" class="btn-sino" id="btnSino" aria-label="Notificações"><img class="sino-img" src="imagens/sino.jpg" alt="" onerror="this.replaceWith(document.createTextNode(\'🔔\'))"><span class="contador escondido" id="contadorSino">0</span></button>' +
         '  <div class="painel-notificacoes escondido" id="painelNotificacoes"></div>' +
         '  <button type="button" class="perfil-topo" id="btnPerfilTopo"></button>' +
         '  <button type="button" class="btn btn-sair" id="btnSair">Sair</button>' +
         "</div>";
+
+    // Rodape com a logo, logo abaixo do conteudo da pagina.
+    var principal = document.querySelector("main.conteudo");
+    if (principal && !document.getElementById("rodape")) {
+        var rodape = document.createElement("footer");
+        rodape.id = "rodape"; rodape.className = "rodape";
+        rodape.innerHTML = '<img src="imagens/logo-dourado.png" alt="Barber House" onerror="this.remove()"><span>Barber House · Seu estilo começa aqui.</span>';
+        principal.insertAdjacentElement("afterend", rodape);
+    }
 
     function desenharUsuario() {
         var u = (Sessao.obter() || { usuario: usuario }).usuario;

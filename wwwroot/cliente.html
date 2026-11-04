@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salão Beleza - Cliente</title>
+    <title>Barber House - Cliente</title>
     <link rel="icon" href="imagens/logo.jpg">
     <link rel="stylesheet" href="estilo.css">
     <link rel="stylesheet" href="comum.css">
@@ -28,7 +28,7 @@
         @media (max-width:650px){ .ag-card{ grid-template-columns:1fr; } .ag-acoes{ justify-content:flex-start; } }
     </style>
 </head>
-<body>
+<body class="fundo-generico">
 <div id="areaSistema">
     <header class="topo" id="cabecalho"></header>
     <nav class="menu" id="menu"></nav>
@@ -36,7 +36,7 @@
 
         <!-- INÍCIO -->
         <section class="pagina escondido" id="pagina-inicio">
-            <div class="titulo-pagina"><h2>Olá, <span id="nomeInicio"></span>!</h2><p>Veja seus próximos horários e agende em poucos cliques.</p></div>
+            <div class="boas-vindas"><img src="imagens/logo.jpg" alt="Barber House" onerror="this.remove()"><div><h2>Olá, <span id="nomeInicio"></span>!</h2><p>Bem-vindo à Barber House. Veja seus próximos horários e agende em poucos cliques.</p></div></div>
             <div id="areaInicio"><div class="carregando">Carregando…</div></div>
         </section>
 

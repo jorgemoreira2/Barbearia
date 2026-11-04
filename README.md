@@ -1,4 +1,4 @@
-# Salão Beleza
+# Barber House (SalaoBeleza)
 
 API em **.NET 10** + **EF Core** + **PostgreSQL 16 (Docker)** com frontend em HTML/JS puro (`wwwroot`).
 

@@ -130,11 +130,11 @@ public class UsuarioService
 
         var corpo =
             "<p>Ola, " + System.Net.WebUtility.HtmlEncode(usuario.Nome) + "!</p>" +
-            "<p>Recebemos um pedido para redefinir a senha da sua conta no Salao Beleza.</p>" +
+            "<p>Recebemos um pedido para redefinir a senha da sua conta no Barber House.</p>" +
             "<p><a href=\"" + link + "\">Clique aqui para criar uma nova senha</a> (o link vale por 30 minutos).</p>" +
             "<p>Se voce nao pediu isso, ignore este e-mail.</p>";
 
-        await _email.EnviarAsync(usuario.Email, "Redefinicao de senha - Salao Beleza", corpo);
+        await _email.EnviarAsync(usuario.Email, "Redefinicao de senha - Barber House", corpo);
 
         return link;
     }

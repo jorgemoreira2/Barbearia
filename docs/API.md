@@ -1,4 +1,4 @@
-# API do Salão Beleza
+# API do Barber House
 
 Base: mesma origem do site (`/api/...`). JSON em camelCase. Datas/horas **sem fuso** (horário local do salão):
 `"2026-10-20T14:30:00"`. Autenticação: `Authorization: Bearer <token>` (use `api()` do `comum.js`, que já faz isso).
